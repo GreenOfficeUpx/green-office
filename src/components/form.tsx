@@ -5,31 +5,89 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { Label } from "./ui/label";
-import {
-  initialUserFormValues,
-  userFormSchema,
-} from "@/schema/userForm.schema";
 
-export function FormFormik() {
-  const handleFormSubmit = (values: any, { setSubmitting }: any) => {
-    console.log(values);
-    setSubmitting(false);
-    toast.success("Usuário cadastrado com sucesso!");
+import api from "@/services";
+import { useState } from "react";
+import {
+  initialMachineFormValues,
+  machineFormSchema,
+} from "@/schema/machineForm.schema";
+
+interface IMachineValues {
+  name: string;
+  kwh: string;
+}
+
+interface FormFormikProps {
+  getMachine: () => void;
+  setIsOpen: (isOpen: boolean) => void;
+  isEdit?: boolean;
+  machineId?: string;
+  machine?: IMachineValues;
+}
+
+export function FormFormik({
+  getMachine,
+  setIsOpen,
+  isEdit = false,
+  machineId,
+  machine,
+}: FormFormikProps) {
+  const [loading, setLoading] = useState(false);
+
+  const handleFormSubmit = async (
+    values: IMachineValues,
+    { setSubmitting }: any
+  ) => {
+    try {
+      setLoading(true);
+      const response = await api.post("/api/machines", values);
+      console.log(response.data);
+      toast.success("Máquina cadastrada com sucesso!");
+      setIsOpen(false);
+      getMachine();
+    } catch (error) {
+      toast.error("Ocorreu um erro ao cadastrar a máquina.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setSubmitting(false);
+    }
   };
 
-  function handleCreateError() {
-    toast.error(
-      "Nossa base de usuário está cheia no momento, tente novamente mais tarde."
-    );
-  }
+  const handleFormEdit = async (
+    values: IMachineValues,
+    { setSubmitting }: any
+  ) => {
+    try {
+      setLoading(true);
+      const response = await api.put(`/api/machines/${machineId}`, values);
+      console.log(response.data);
+      toast.success("Máquina editada com sucesso!");
+      setIsOpen(false);
+      getMachine();
+    } catch (error) {
+      toast.error("Ocorreu um erro ao editar a máquina.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setSubmitting(false);
+    }
+  };
 
   return (
     <Formik
-      initialValues={initialUserFormValues}
-      validationSchema={userFormSchema}
-      onSubmit={handleFormSubmit}
+      initialValues={machine ? machine : initialMachineFormValues}
+      validationSchema={machineFormSchema}
+      onSubmit={(values, actions) => {
+        if (isEdit) {
+          handleFormEdit(values, actions);
+        } else {
+          handleFormSubmit(values, actions);
+        }
+      }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, values, handleChange }) => (
         <Form className="w-full">
           <div className="w-full lg:flex lg:flex-row lg:items-center lg:justify-between lg:gap-4">
             <div className="mb-4 w-full">
@@ -39,8 +97,10 @@ export function FormFormik() {
               <Input
                 type="text"
                 placeholder="Digite o nome da máquina"
+                value={values?.name}
                 id="name"
                 name="name"
+                onChange={handleChange}
                 className="mt-1 p-2 w-full border rounded-md"
               />
               <ErrorMessage
@@ -53,18 +113,20 @@ export function FormFormik() {
 
           <div className="w-full lg:flex lg:items-center lg:justify-between lg:gap-4">
             <div className="mb-4 w-full">
-              <Label htmlFor="phone" className="block text-sm font-medium">
+              <Label htmlFor="kwh" className="block text-sm font-medium">
                 Kilowatts
               </Label>
               <Input
                 type="text"
-                id="phone"
+                id="kwh"
+                value={values?.kwh}
                 placeholder="Digite o número de kilowatts"
-                name="phone"
+                name="kwh"
+                onChange={handleChange}
                 className="mt-1 p-2 w-full border rounded-md"
               />
               <ErrorMessage
-                name="phone"
+                name="kwh"
                 component="p"
                 className="text-red-500 text-xs italic"
               />
@@ -72,7 +134,11 @@ export function FormFormik() {
           </div>
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+            {loading
+              ? "Processando..."
+              : machine
+              ? "Editar alterações"
+              : "Cadastrar"}
           </Button>
         </Form>
       )}

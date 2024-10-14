@@ -31,6 +31,7 @@ export function Login() {
 
   const mockUser = {
     email: "admin@admin.com",
+    password: "123123",
   };
 
   const handleLoginSubmit = (values: ILoginInfo) => {
@@ -41,7 +42,10 @@ export function Login() {
       return;
     }
 
-    if (values.email === mockUser.email && values.password === "123123") {
+    if (
+      values.email === mockUser.email &&
+      values.password === mockUser.password
+    ) {
       toast.success("Usuário logado com sucesso!");
       setLoading(false);
       router.push("/dashboard");
@@ -117,12 +121,12 @@ export function Login() {
             disabled={loading}
             variant="default"
             type="submit"
-            className="bg-gradient-to-r from-[#59f85b] to-[#12d516] text-white text-lg w-full rounded-md h-14 mt-20 hover:bg-black hover:bg-none hover:text-green-500 transition-all duration-300"
+            className="bg-gradient-to-r from-[#20992f] to-[#184f20] text-white text-lg w-full rounded-md h-14 mt-20 hover:bg-black hover:bg-none hover:text-green-500"
           >
             Login
           </Button>
         </form>
-        <div className="hidden md:flex md:w-1/2 justify-center items-center p-10 bg-gradient-to-t from-[#59f85b] to-[#12d516] rounded-tl-[80px] rounded-xl">
+        <div className="hidden md:flex md:w-1/2 justify-center items-center p-10 bg-gradient-to-b from-[#20992f] to-[#184f20] rounded-tl-[80px] rounded-br-xl rounded-tr-xl">
           <Image src={logo} alt="Background" className=" w-full " />
         </div>
       </div>

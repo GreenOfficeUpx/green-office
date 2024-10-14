@@ -10,9 +10,7 @@ export function HomeDashboard() {
     <>
       <Header />
       <Filters />
-      <CircularProgressBar />
       <Toaster richColors />
-      <Cards />
     </>
   );
 }

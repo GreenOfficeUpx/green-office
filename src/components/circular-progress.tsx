@@ -38,12 +38,12 @@ const CircularProgressBar = () => {
 
   return (
     <>
-      <div className="flex justify-center py-10">
+      <div className="flex justify-center">
         <h1 className="text-lg md:text-2xl text-white">
           Porcentagem de energia das máquinas:{" "}
         </h1>
       </div>
-      <div className="relative flex items-center justify-center mb-10">
+      <div className="relative flex items-center justify-center">
         <svg width={size} height={size} className="block">
           <circle
             stroke="#e0e0df"
