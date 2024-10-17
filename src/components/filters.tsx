@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, X } from "lucide-react";
+import { PlusCircle, Search, X } from "lucide-react";
 import { Modal } from "./modal";
 import api from "@/services";
 import { useEffect, useState } from "react";
@@ -38,7 +38,7 @@ export function Filters() {
   }, []);
 
   const handleFilter = () => {
-    if (selectedMachine === "all") {
+    if (selectedMachine === 'all') {
       setFilteredMachines(machinesList);
     } else {
       const filtered = machinesList.filter(
@@ -57,17 +57,17 @@ export function Filters() {
     <>
       <div className="flex flex-col gap-10">
         <div className="md:flex items-center gap-2 w-full justify-center px-12">
-          <span className="text-sm font-semibold text-white">Filtros:</span>
+          <span className="text-sm font-semibold">Filtros:</span>
           <Select
             value={selectedMachine}
             onValueChange={setSelectedMachine}
             defaultValue="all"
           >
-            <SelectTrigger className="h-10 w-full mt-2 md:mt-0 text-white">
+            <SelectTrigger className="h-10 w-full mt-2 md:mt-0 bg-green-500 text-white">
               <SelectValue placeholder="Selecione uma máquina" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Todos os nomes</SelectItem>
+              <SelectItem value="all">Todos as máquinas</SelectItem>
               {machinesList.map((machine) => (
                 <SelectItem key={machine.id} value={machine.name}>
                   {machine.name}
@@ -77,7 +77,7 @@ export function Filters() {
           </Select>
 
           <Button
-            className="submit w-full mt-2 md:mt-0"
+            className="submit w-full mt-2 md:mt-0 bg-green-500 hover:bg-black text-white hover:text-green-500"
             variant="secondary"
             onClick={handleFilter}
           >
@@ -86,7 +86,7 @@ export function Filters() {
           </Button>
 
           <Button
-            className="button w-full mt-2 md:mt-0"
+            className="button w-full mt-2 md:mt-0 bg-green-500 hover:bg-black text-white hover:text-green-500"
             variant="outline"
             onClick={handleClearFilters}
           >
@@ -94,14 +94,20 @@ export function Filters() {
             Remover filtros
           </Button>
 
-          <Button className="button w-full mt-2 md:mt-0" variant="outline">
-            <Modal
-              getMachine={getMachine}
-              isOpen={isModalOpen}
-              setIsOpen={setIsModalOpen}
-            />
+          <Button
+            className="button w-full mt-2 md:mt-0 hover:bg-black bg-green-500 text-white hover:text-green-500"
+            variant="outline"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <PlusCircle className="h-4 w-4 mr-2" />
+            Cadastrar máquinas
           </Button>
         </div>
+        <Modal
+          getMachine={getMachine}
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+        />
         <CircularProgressBar />
         <Cards
           machinesList={filteredMachines}

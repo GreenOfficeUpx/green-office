@@ -39,7 +39,7 @@ const CircularProgressBar = () => {
   return (
     <>
       <div className="flex justify-center">
-        <h1 className="text-lg md:text-2xl text-white">
+        <h1 className="text-lg md:text-2xl text-gray-700 ">
           Porcentagem de energia das máquinas:{" "}
         </h1>
       </div>
@@ -66,7 +66,7 @@ const CircularProgressBar = () => {
           />
         </svg>
         <div className="absolute">
-          <p className="text-white text-2xl font-bold">
+          <p className=" text-2xl font-bold">
             {Math.round(percentage)}%
           </p>
         </div>

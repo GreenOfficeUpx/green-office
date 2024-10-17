@@ -17,14 +17,14 @@ export function Cards({ machinesList, loading, getMachine }: CardsProps) {
           {machinesList?.map((machine: any, index: number) => (
             <div
               key={index}
-              className="h-30 bg-[#a9ff95] rounded p-5 flex justify-between shadow-2xl"
+              className="h-30 bg-white rounded p-5 flex justify-between shadow-2xl"
             >
               <div className="flex items-center justify-center text-2xl">
                 <BellPlus />
               </div>
-              <div className="text-center text-lg md:text-start">
+              <div className="text-center text-lg md:text-start font-bold">
                 <p>{machine.name}</p>
-                <p className="text-base font-medium text-gray-500">
+                <p className="text-base font-medium text-gray-700">
                   Consumo: {machine.kwh} kwh
                 </p>
               </div>

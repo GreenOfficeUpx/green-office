@@ -31,8 +31,7 @@ export function Modal({ getMachine, machine, isOpen, setIsOpen }: ModalProps) {
       <DialogTrigger asChild>
         {!machine && (
           <button className="flex items-center">
-            <PlusCircle className="h-4 w-4 mr-2" />
-            Cadastrar máquinas
+            
           </button>
         )}
       </DialogTrigger>
