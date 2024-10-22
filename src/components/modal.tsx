@@ -8,7 +8,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { FormFormik } from "./form";
-import { PlusCircle } from "lucide-react";
 
 interface ModalProps {
   getMachine: any;
@@ -29,15 +28,13 @@ export function Modal({ getMachine, machine, isOpen, setIsOpen }: ModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        {!machine && (
-          <button className="flex items-center">
-            
-          </button>
-        )}
+        {!machine && <button className="flex items-center"></button>}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{machine ? "Editar máquina" : "Cadastrar máquina"}</DialogTitle>
+          <DialogTitle>
+            {machine ? "Editar máquina" : "Cadastrar máquina"}
+          </DialogTitle>
           <DialogDescription>
             {machine
               ? "Edite os dados da máquina nos campos abaixo:"

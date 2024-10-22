@@ -13,7 +13,7 @@ export function Cards({ machinesList, loading, getMachine }: CardsProps) {
       {loading ? (
         <LoaderCircle className="animate-spin size-10" />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-[1200px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-[1700px]">
           {machinesList?.map((machine: any, index: number) => (
             <div
               key={index}

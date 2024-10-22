@@ -21,7 +21,6 @@ interface ILoginInfo {
 
 export function Login() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [initialRender, setInitialRender] = useState(true);
 
   useEffect(() => {
@@ -40,23 +39,23 @@ export function Login() {
   };
 
   const handleLoginSubmit = (values: ILoginInfo) => {
-    setLoading(true);
-    if (values.password.length < 6) {
-      toast.error("A senha deve ter pelo menos 6 caracteres.");
-      setLoading(false);
-      return;
-    }
-
-    if (
-      values.email === mockUser.email &&
-      values.password === mockUser.password
-    ) {
-      toast.success("Usuário logado com sucesso!");
-      setLoading(false);
-      router.push("/dashboard");
-    } else {
-      toast.error("Credenciais incorretas!");
-      setLoading(false);
+    try {
+      if (values.password.length < 6) {
+        toast.error("A senha deve ter pelo menos 6 caracteres.");
+        return;
+      }
+      if (
+        values.email === mockUser.email &&
+        values.password === mockUser.password
+      ) {
+        toast.success("Usuário logado com sucesso!");
+        router.push("/dashboard");
+      } else {
+        toast.error("Credenciais incorretas!");
+      }
+    } catch (error) {
+      console.error("Erro ao tentar logar:", error);
+      toast.error("Ocorreu um erro durante o login. Tente novamente.");
     }
   };
 
@@ -124,7 +123,6 @@ export function Login() {
               </div>
             </div>
             <Button
-              disabled={loading}
               variant="default"
               type="submit"
               className="bg-gradient-to-r from-[#20992f] to-[#184f20] text-white text-lg w-full rounded-md h-14 mt-20 hover:bg-black hover:bg-none hover:text-green-500"

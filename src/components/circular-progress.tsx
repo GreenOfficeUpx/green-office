@@ -8,7 +8,7 @@ const CircularProgressBar = () => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
 
-  const [percentage, setPercentage] = useState(0); // Estado da porcentagem
+  const [percentage, setPercentage] = useState(0); 
 
   // Animação do progresso usando react-spring
   const springProps = useSpring({
@@ -18,18 +18,17 @@ const CircularProgressBar = () => {
   });
 
   useEffect(() => {
-    // Função que atualiza a porcentagem a cada 30 segundos
     const interval = setInterval(() => {
       setPercentage((prev) => {
         if (prev + 1 >= 100) {
           clearInterval(interval); // Para o intervalo ao atingir 100%
           return 100;
         }
-        return prev + 1; // Incrementa a porcentagem em 1%
+        return prev + 1;
       });
     }, 20000); // Atualiza a cada 30 segundos (30000ms)
 
-    return () => clearInterval(interval); // Limpa o intervalo ao desmontar o componente
+    return () => clearInterval(interval); 
   }, []);
 
   const strokeDashoffset = springProps.progress.interpolate(

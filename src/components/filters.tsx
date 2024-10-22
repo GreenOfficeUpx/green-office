@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PlusCircle, Search, X } from "lucide-react";
+import { Loader2, PlusCircle, Search, X } from "lucide-react";
 import { Modal } from "./modal";
 import api from "@/services";
 import { useEffect, useState } from "react";
@@ -38,25 +38,33 @@ export function Filters() {
   }, []);
 
   const handleFilter = () => {
-    if (selectedMachine === 'all') {
-      setFilteredMachines(machinesList);
-    } else {
-      const filtered = machinesList.filter(
-        (machine) => machine.name === selectedMachine
-      );
-      setFilteredMachines(filtered);
-    }
+    setLoading(true);
+    setTimeout(() => {
+      if (selectedMachine === "all") {
+        setFilteredMachines(machinesList);
+      } else {
+        const filtered = machinesList.filter(
+          (machine) => machine.name === selectedMachine
+        );
+        setFilteredMachines(filtered);
+      }
+      setLoading(false);
+    }, 1000);
   };
 
   const handleClearFilters = () => {
-    setSelectedMachine("all");
-    setFilteredMachines(machinesList);
+    setLoading(true);
+    setTimeout(() => {
+      setSelectedMachine("all");
+      setFilteredMachines(machinesList);
+      setLoading(false);
+    }, 1000);
   };
 
   return (
     <>
       <div className="flex flex-col gap-10">
-        <div className="md:flex items-center gap-2 w-full justify-center px-12">
+        <div className="md:flex items-center gap-2 w-full justify-center px-12 max-w-[1800px] mx-auto">
           <span className="text-sm font-semibold">Filtros:</span>
           <Select
             value={selectedMachine}
@@ -109,11 +117,17 @@ export function Filters() {
           setIsOpen={setIsModalOpen}
         />
         <CircularProgressBar />
-        <Cards
-          machinesList={filteredMachines}
-          loading={loading}
-          getMachine={getMachine}
-        />
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <Loader2 className="w-12 h-12 animate-spin items-center mt-14" />
+          </div>
+        ) : (
+          <Cards
+            machinesList={filteredMachines}
+            loading={loading}
+            getMachine={getMachine}
+          />
+        )}
       </div>
     </>
   );
