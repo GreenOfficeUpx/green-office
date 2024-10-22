@@ -3,7 +3,7 @@ import React from 'react';
 
 const Dashboard = () => {
   return (
-    <div className="bg-[#444646] min-h-screen">
+    <div className="bg-[#ecffe5] min-h-screen">
       <HomeDashboard />
     </div>
   );
